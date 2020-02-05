@@ -1,0 +1,46 @@
+{
+  "geometry": {
+    "location": {
+      "lat": 17.7362629,
+      "lng": -88.0277899
+    },
+    "viewport": {
+      "northeast": {
+        "lat": 17.7376331802915,
+        "lng": -88.0265046197085
+      },
+      "southwest": {
+        "lat": 17.7349352197085,
+        "lng": -88.02920258029151
+      }
+    }
+  },
+  "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/lodging-71.png",
+  "id": "a447714a8f70b2066a58ddfb866dec3498116173",
+  "name": "Botanical Paradise",
+  "photos": [
+    {
+      "height": 3984,
+      "html_attributions": [
+        "<a href=\"https://maps.google.com/maps/contrib/107220611532045139422\">Ally Coyote</a>"
+      ],
+      "photo_reference": "CmRaAAAAeXUMz9fn-1ETlcrTSv2VcEuN_iLVfGpHq1gUm4LbSf3RYlu8CLChzRQoW3M0eRXKizVeOLdcFperwEkx9awTpjYEi5-pxylI1F1yKPyiJgzKFSlr_VWWcitNMBMORHtOEhBjEvnm0n44wYXd6rUYwArRGhQhRv5h2CgdFdD3kf5JzQYa-Ihyng",
+      "width": 2988
+    }
+  ],
+  "place_id": "ChIJf0KXYOmNXI8Rlk9lhEYZjjU",
+  "plus_code": {
+    "compound_code": "PXPC+GV Zenones Unidos, Belize",
+    "global_code": "769HPXPC+GV"
+  },
+  "rating": 5,
+  "reference": "ChIJf0KXYOmNXI8Rlk9lhEYZjjU",
+  "scope": "GOOGLE",
+  "types": [
+    "lodging",
+    "point_of_interest",
+    "establishment"
+  ],
+  "user_ratings_total": 3,
+  "vicinity": "Ave. Mangle, Caye Caulker"
+}
