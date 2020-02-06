@@ -1,5 +1,7 @@
 #!/usr/bin/python
-
+"""
+Demo Project for class. Welcome to Caye Caulker, Belize.
+"""
 import os
 import time
 import googlemaps
