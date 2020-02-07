@@ -8,9 +8,6 @@ This script is a standalone process that will be scheduled to run
 on a regular basis to keep the data fresh and current.
 '''
 
-import sys
-import codecs
-
 import gather
 import process
 

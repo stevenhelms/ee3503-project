@@ -2,13 +2,9 @@
 
 [description]
 '''
-
-# import unicodedata
-import sys
-import codecs
-
 import gather
 import output
+
 
 def reviews(details):
     """

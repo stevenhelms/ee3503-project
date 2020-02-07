@@ -2,23 +2,33 @@ import os
 import time
 import googlemaps
 
+
 def get_data(place=None, pagetoken=None):
-    """This function will gather remote data and return a JSON dictionary
+    '''This function will gather remote data and return a JSON dictionary
 
     Parameters:
-        url (str): The URL to gather data from
+        place (dictionary) -- Specific hotel information
+        pagetoken (string) -- Page Token ID to retrieve the next set of data.
 
     Returns:
-        dict: A dictionary of the retrieved JSON data
+        dictionary: Retrieved JSON data
 
-    """
+    '''
 
+    '''
+    Never store an API key in the source code or in another file
+    that may be pushed to a remote Git repository. Best practice
+    would have that key stored in memory (i.e. environment variable)
+    or in another file that is excluded from Git (via .gitignore).
+    '''
     api_key = os.getenv("PLACES_API")
     if api_key is None:
         return {'error': "API key not set in the environment."}
 
-    # Coordinates to Blue Bay Cottage where I stayed the last time
-    # I visited the island.
+    '''
+    Coordinates to Blue Bay Cottage where I stayed the last time
+    I visited the island.
+    '''
     latitude = 17.740033
     longitude = -88.028298
 
@@ -31,6 +41,13 @@ def get_data(place=None, pagetoken=None):
     else:
         count = 0
         data = None
+
+        '''
+        Intentional delay to give Google a chance to
+        be ready for the next query.
+        '''
+        time.sleep(1)
+
         while data is None and count < 3:
             try:
                 data = gmaps.places_nearby(
