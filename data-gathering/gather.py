@@ -25,9 +25,9 @@ def get_data(place=None, pagetoken=None):
     gmaps = googlemaps.Client(key=api_key)
 
     if place is not None and 'place_id' in place:
-        print(f"DEBUG: place_id = {place['place_id']}")
+        # print(f"DEBUG: place_id = {place['place_id']}")
         data = gmaps.place(place['place_id'])
-        print("DEBUG: " + str(data.keys()))
+        # print("DEBUG: " + str(data.keys()))
     else:
         count = 0
         data = None
@@ -47,7 +47,7 @@ def get_data(place=None, pagetoken=None):
                     pagetoken  # the page token, if it exists.
                 )
             except googlemaps.exceptions.ApiError:
-                print(f"DEBUG: Caught error. Trying again. {count+1}")
+                # print(f"DEBUG: Caught error. Trying again. {count+1}")
                 data = None
                 count += 1
                 time.sleep(3)
