@@ -11,7 +11,8 @@ import gather
 import output
 
 def reviews(details):
-    """Gather and process user ratings for a particular place
+    """
+    Gather and process user ratings for a particular place.
 
     Arguments:
         place JSON object - API results for a single location
@@ -61,7 +62,7 @@ def single_place(place):
     obj = { 'rating': rating, 'user_ratings_total': user_ratings_total,
         'user_reviews': user_reviews
     }
-    output.rating(place['place_id'], rating, user_ratings_total)
+    output.ratings(place['place_id'], rating, user_ratings_total)
 
     output.reviews(place['place_id'], user_reviews)
 
