@@ -134,21 +134,30 @@ def hotels(id,data):
         data {dictionary} -- Dictionary of data to process
     '''
     global USE_CSV
-    fields = ['name','formatted_address','formatted_phone_number','vicinity',
-        'types','google_place_id','geometry']
+    fields = ['name', 'formatted_address', 'formatted_phone_number',
+        'vicinity', 'types', 'place_id', 'geometry']
+
+    # print(f"DEBUG: hotels()")
+    # print(data)
 
     if USE_CSV:
         file = "hotels.csv"
         headers = "ID,Name,Address,Phone,Vicinity\n"
         f = open_file(file, headers)
-        if f == None:
+        if f is None:
             return
 
-        f.write(data['place_id']) # Start with our ID
-        for field in range(fields): # Write each of the other fields
-            f = data[field] if data[field] in data else ''
-            f.write(","+f)
-        f.write("\n") # End with a newline character
+        f.write(data['place_id'])  # Start with our ID
+        for field in fields:  # Write each of the other field
+            # print(f"hotels() DEBUG: Processing field {field}")
+            d = ''
+            if field in data:
+                d = data[field]
+            if field == 'types':
+                d = "|".join(data[field]) # pipe separated list
+            # print(f"hotels() DEBUG: {field} - d={d}")
+            f.write("," + str(d))
+        f.write("\n")  # End with a newline character
     else:
         '''The condition used to send the data to a RESTful API'''
         pass
