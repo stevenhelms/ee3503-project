@@ -28,7 +28,7 @@ def ratings(place):
     """Gather and process place ratings
 
     Arguments:
-        place JSON object - API results for a single location
+        place {dictionary} - Hotel data.
 
     """
     # init a few variables we'll need
@@ -46,46 +46,35 @@ def ratings(place):
 
     return [rating, user_ratings_total]
 
-def prices(place):
-    """Gather and process user ratings for a particular place
-
-    """
-    pass
-
 
 def single_place(place):
+    '''
+    A single hotel is processed by this function.
+
+    Arguments:
+        place {dictionary} -- Hotel data.
+    '''
+    rating, user_ratings_total = ratings(place)
     details = gather.get_data(place)
     user_reviews = reviews(details)
 
-    rating, user_ratings_total = ratings(place)
-
-    obj = { 'rating': rating, 'user_ratings_total': user_ratings_total,
-        'user_reviews': user_reviews
-    }
     output.ratings(place['place_id'], rating, user_ratings_total)
-
     output.reviews(place['place_id'], user_reviews)
-
     output.hotels(place['place_id'], place)
-    print(f"{place['name']} rating: {rating}({user_ratings_total})")
-    # sys.stdout = codecs.getwriter('utf8')(sys.stdout.buffer)
-    # print(user_reviews)
-    # output_csv(place)
 
-    pass
+    # Testing purposes only? May remove later
+    print(f"{place['name']} rating: {rating}({user_ratings_total})")
 
 
 def process(data):
-    """Process and store the data gathered
+    """Process and store the data gathered.
 
     Arguments:
-        data JSON object -- results from an API call
+        data {dictionary} -- Results from an API call
 
     """
-    # print(data)
     while 'next_page_token' in data:
         for place in data['results']:
             single_place(place)
             # break # TESTING to limit API queries.
         data = gather.get_data(None, data['next_page_token'])
-        # print(data)

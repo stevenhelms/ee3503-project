@@ -49,6 +49,15 @@ def open_file(file, headers=''):
 
 
 def ratings(id,rating,user_ratings_total):
+    '''
+    `ratings` formats the function parameters in a way where they
+    can be stored in CSV or sent to an API.
+
+    Arguments:
+        id {int|string} -- Unique ID for the hotel
+        rating {float} -- The average user rating.
+        user_ratings_total {int} -- Total ratings given for a hotel.
+    '''
     global USE_CSV
 
     if USE_CSV:
@@ -78,7 +87,7 @@ def reviews(id,reviews):
 
     Arguments:
         id {int|string} -- Unique ID for the hotel
-        data {dictionary} -- Dictionary of data to process
+        reviews {dictionary} -- Dictionary of data to process
     '''
     global USE_CSV
 
