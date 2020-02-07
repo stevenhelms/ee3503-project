@@ -130,3 +130,5 @@ dmypy.json
 
 # Ignore any .csv files
 *.csv
+*.pem
+*.secret
