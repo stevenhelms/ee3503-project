@@ -21,9 +21,23 @@ def get_data(place=None, pagetoken=None):
     would have that key stored in memory (i.e. environment variable)
     or in another file that is excluded from Git (via .gitignore).
     '''
-    api_key = os.getenv("PLACES_API")
+    try:
+        api_key = os.getenv("PLACES_API")
+        if api_key is None:
+            raise Exception("API key not set in the environment.")
+    except Exception as e:
+        '''
+        First try from environment failed. Let's check a file.
+        '''
+        # print("Warning: "+str(e))
+        try:
+            k = open(".key")
+            api_key = k.readline();
+        except Exception as e:
+            print("Warning: "+str(e))
+
     if api_key is None:
-        return {'error': "API key not set in the environment."}
+        return {'error': "API key not set."}
 
     '''
     Coordinates to Blue Bay Cottage where I stayed the last time
