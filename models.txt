@@ -1,0 +1,30 @@
+# Create your models here.
+class Hotels(models.Model):
+    name = models.CharField()
+    address = models.CharField()
+    phone_number = models.CharField()
+    vicinity = models.CharField()
+    types = models.CharField()
+    google_place_id = models.CharField()
+    geometry = models.TextField()
+
+    def __str__(self):
+        return str(self.name.title())
+
+class Ratings(models.Model):
+    hotel = models.ForeignKey('Hotels', on_delete=models.CASCADE)
+    rating = models.FloatField()
+    user_ratings_total = models.IntegerField()
+
+    def __str__(self):
+        return str(f"{self.rating} {self.user_ratings_total}")
+
+class Reviews(models.Model):
+    hotel = models.ForeignKey('Hotels', on_delete=models.CASCADE)
+    author_name = models.CharField()
+    rating = models.FloatField()
+    review_text = models.TextField()
+    review_time = models.DateTimeField()
+
+    def __str__(self):
+        return str(author_name)
