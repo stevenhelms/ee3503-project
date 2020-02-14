@@ -23,5 +23,5 @@ class HotelDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class HotelViewSet(viewsets.ModelViewSet):
-    queryset = Hotel.objects.all().order_by('name')
+    queryset = Hotel.objects.all().order_by('-created_at')
     serializer_class = HotelSerializer
