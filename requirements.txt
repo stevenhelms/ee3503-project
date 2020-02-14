@@ -1,1 +1,4 @@
 googlemaps
+djangorestframework
+markdown
+pyyaml
