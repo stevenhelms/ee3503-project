@@ -3,3 +3,4 @@ djangorestframework
 markdown
 pyyaml
 mysqlclient
+uwsgi

@@ -35,3 +35,9 @@ React Redeax, and React Native JavaScript libraries.
 Additional OS packages required
 - python3-mysql.connector
 - libmysqlclient-dev
+- uwsgi-plugin-python3
+- nginx
+- python-django-uwsgi
+
+
+Additional Python packages found in requirements.txt.
