@@ -29,3 +29,9 @@ with. One will be designed for web browsers and dynamically adjust for viewing
 on tablets and mobile devices. The second UI will be a native mobile application
 available for IOS and Android devices. The frontends will leverage React, 
 React Redeax, and React Native JavaScript libraries.
+
+## INSTALLATION NOTES
+
+Additional OS packages required
+- python3-mysql.connector
+- libmysqlclient-dev
