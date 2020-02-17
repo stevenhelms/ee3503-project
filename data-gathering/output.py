@@ -6,7 +6,9 @@ It is designed to primarily handle CSV and REST API but can be adapted.
 '''
 import os
 import pathlib
+import requests
 
+HH_API = 'http://localhost:8000' # No trailing slash here.
 USE_CSV = True
 open_files = []
 
@@ -58,7 +60,7 @@ def ratings(id,rating,user_ratings_total):
         rating {float} -- The average user rating.
         user_ratings_total {int} -- Total ratings given for a hotel.
     '''
-    global USE_CSV
+    global USE_CSV, HH_API
 
     if USE_CSV:
         file = "ratings.csv"
@@ -75,7 +77,15 @@ def ratings(id,rating,user_ratings_total):
         f.write(id + "," + str(rating) +","+ str(user_ratings_total) +"\n")
     else:
         '''The condition used to send the data to a RESTful API'''
-        pass
+        response = requests.post(HH_API + '/api/hotels', params = {
+                'hotel_id': id,
+                'rating': rating,
+                'user_rating_total': user_ratings_total,
+            },
+            headers = {
+                'Authorization': 'mykey'
+            }    
+        )
 
 
 def reviews(id,reviews):
@@ -89,7 +99,7 @@ def reviews(id,reviews):
         id {int|string} -- Unique ID for the hotel
         reviews {dictionary} -- Dictionary of data to process
     '''
-    global USE_CSV
+    global USE_CSV, HH_API
 
     if reviews == None:
         return
@@ -133,7 +143,7 @@ def hotels(id,data):
         id {int|string} -- Unique ID for the hotel
         data {dictionary} -- Dictionary of data to process
     '''
-    global USE_CSV
+    global USE_CSV, HH_API
     fields = ['name', 'formatted_address', 'formatted_phone_number',
         'vicinity', 'types', 'place_id', 'geometry']
 
