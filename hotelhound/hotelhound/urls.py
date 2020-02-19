@@ -18,7 +18,10 @@ from django.urls import include, path
 from rest_framework.schemas import get_schema_view
 from rest_framework import permissions
 
+from api import views
+
 urlpatterns = [
+    path('', views.index, name='index'),
     path('api/', include('api.urls')),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),

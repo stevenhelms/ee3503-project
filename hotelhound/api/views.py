@@ -1,4 +1,7 @@
 from django.shortcuts import render
+from django.http import HttpResponse
+import datetime
+
 # from rest_framework.views import APIView
 # from rest_framework.response import Response
 
@@ -55,3 +58,11 @@ class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
 class ReviewViewSet(viewsets.ModelViewSet):
     queryset = Review.objects.all().order_by('-created_at')
     serializer_class = ReviewSerializer
+
+'''
+Example HTML view
+'''
+def index(request):
+    now = datetime.datetime.now()
+    html = "<html><body>It is now %s.</body></html>" % now
+    return HttpResponse(html)
