@@ -77,15 +77,15 @@ WSGI_APPLICATION = 'hotelhound.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'HOST': 'database-1.cvpc1k5ochjq.us-east-1.rds.amazonaws.com',
+    #     'PORT': '3306',
+    #     'OPTIONS': {
+    #         'read_default_file': os.path.join(BASE_DIR + 'my.cnf')
+    #     }
+    # },
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'HOST': 'database-1.cvpc1k5ochjq.us-east-1.rds.amazonaws.com',
-        'PORT': '3306',
-        'OPTIONS': {
-            'read_default_file': os.path.join(BASE_DIR + 'my.cnf')
-        }
-    },
-    'dev': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
@@ -130,3 +130,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
