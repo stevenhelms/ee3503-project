@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import include, path, re_path
 from rest_framework.schemas import get_schema_view
 from rest_framework import permissions
 
@@ -24,7 +24,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('api/', include('api.urls')),
     path('admin/', admin.site.urls),
-    path('api-auth/', include('rest_framework.urls')),
+    re_path(r'^api-auth/', include('rest_framework.urls')),
     path('schema/', get_schema_view(
         title='Hotel Hound API',
         version='1.0'
