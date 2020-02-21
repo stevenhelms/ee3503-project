@@ -5,12 +5,64 @@ This module handles the output of data to all possible solutions.
 It is designed to primarily handle CSV and REST API but can be adapted.
 '''
 import os
+import json
 import pathlib
 import requests
 
-HH_API = 'http://localhost:8000' # No trailing slash here.
-USE_CSV = True
+import settings
+
+
 open_files = []
+
+def get_api_key():
+    '''
+    Never store an API key in the source code or in another file
+    that may be pushed to a remote Git repository. Best practice
+    would have that key stored in memory (i.e. environment variable)
+    or in another file that is excluded from Git (via .gitignore).
+    '''
+    try:
+        api_key = os.getenv("HH_KEY")
+        if api_key is None:
+            raise Exception("Hotel Hound API key not set in the environment.")
+    except Exception as e:
+        '''
+        First try from environment failed. Let's check a file.
+        '''
+        # print("Warning: "+str(e))
+        try:
+            k = open("hh.key")
+            api_key = k.readline();
+        except Exception as e:
+            print("Warning: "+str(e))
+
+    if api_key is None:
+        return {'error': "HotelHound API key not set."}
+
+    return api_key
+
+
+def post_data(url_path, data):
+    api_key = get_api_key()
+
+    headers = {
+        'Content-Type': 'application/json',
+        'Authorization': "Token " + api_key
+    }    
+    print(headers)
+
+    json_data = json.dumps(data)
+    req = requests.Request('POST', settings.HH_API + '/' + url_path, 
+        data = json_data, headers = headers
+    )
+    prepared = req.prepare()
+
+    print(prepared.headers)
+    print(prepared.body)
+
+    s = requests.Session()
+    response = s.send(prepared)
+    return response
 
 
 def open_file(file, headers=''):
@@ -60,9 +112,8 @@ def ratings(id,rating,user_ratings_total):
         rating {float} -- The average user rating.
         user_ratings_total {int} -- Total ratings given for a hotel.
     '''
-    global USE_CSV, HH_API
 
-    if USE_CSV:
+    if settings.runtime.use_csv:
         file = "ratings.csv"
         headers = "ID,Rating,Ratings Total\n"
         f = open_file(file, headers)
@@ -77,14 +128,13 @@ def ratings(id,rating,user_ratings_total):
         f.write(id + "," + str(rating) +","+ str(user_ratings_total) +"\n")
     else:
         '''The condition used to send the data to a RESTful API'''
-        response = requests.post(HH_API + '/api/hotels', params = {
+        api_key = get_api_key()
+
+        response = post_data('ratings/', {
                 'hotel_id': id,
                 'rating': rating,
                 'user_rating_total': user_ratings_total,
-            },
-            headers = {
-                'Authorization': 'mykey'
-            }    
+            }
         )
 
 
@@ -99,12 +149,11 @@ def reviews(id,reviews):
         id {int|string} -- Unique ID for the hotel
         reviews {dictionary} -- Dictionary of data to process
     '''
-    global USE_CSV, HH_API
 
     if reviews == None:
         return
 
-    if USE_CSV:
+    if settings.runtime.use_csv:
         file = "reviews.csv"
         headers = "ID,Author,Rating,Text,Time\n"
         f = open_file(file, headers)
@@ -129,7 +178,15 @@ def reviews(id,reviews):
             f.write("\n") # End with a newline character
     else:
         '''The condition used to send the data to a RESTful API'''
-        pass
+        api_key = get_api_key()
+        response = post_data('reviews/', {
+                'hotel_id': id,
+                'author_name': review['author_name'],
+                'rating': review['rating'],
+                'review_text': review['text'],
+                'review_time': review['time'],
+            }   
+        )
 
 
 def hotels(id,data):
@@ -143,14 +200,13 @@ def hotels(id,data):
         id {int|string} -- Unique ID for the hotel
         data {dictionary} -- Dictionary of data to process
     '''
-    global USE_CSV, HH_API
     fields = ['name', 'formatted_address', 'formatted_phone_number',
         'vicinity', 'types', 'place_id', 'geometry']
 
     # print(f"DEBUG: hotels()")
     # print(data)
 
-    if USE_CSV:
+    if settings.runtime.use_csv:
         file = "hotels.csv"
         headers = "ID,Name,Address,Phone,Vicinity\n"
         f = open_file(file, headers)
@@ -170,4 +226,16 @@ def hotels(id,data):
         f.write("\n")  # End with a newline character
     else:
         '''The condition used to send the data to a RESTful API'''
-        pass
+        api_key = get_api_key()
+
+        response = post_data('hotels/', {
+                'name': data['name'],
+                'address': data['formatted_address'] if 'formatted_address' in data else '',
+                'phone_number': data['formatted_phone_number'] if 'formatted_phone_number' in data else '',
+                'vicinity': data['vicinity'],
+                'types': '|'.join(data['types']),
+                'google_place_id': data['place_id'],
+                'geometry': str(data['geometry']),
+            }
+        )
+        return response.text

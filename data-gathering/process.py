@@ -2,6 +2,7 @@
 
 [description]
 '''
+import settings
 import gather
 import output
 
@@ -54,23 +55,28 @@ def single_place(place):
     details = gather.get_data(place)
     user_reviews = reviews(details)
 
-    output.ratings(place['place_id'], rating, user_ratings_total)
-    output.reviews(place['place_id'], user_reviews)
-    output.hotels(place['place_id'], place)
+    id = output.hotels(place['place_id'], place)
+    print(id)
+    return
+    output.ratings(id, rating, user_ratings_total)
+    output.reviews(id, user_reviews)
 
     # Testing purposes only? May remove later
     print(f"{place['name']} rating: {rating}({user_ratings_total})")
 
 
-def process(data):
+def process():
     """Process and store the data gathered.
 
-    Arguments:
-        data {dictionary} -- Results from an API call
-
     """
+    data = gather.get_data()
+    if 'error' in data:
+        print(data['error'])
+        exit(-1)
+
     while 'next_page_token' in data:
         for place in data['results']:
             single_place(place)
-            # break # TESTING to limit API queries.
+            if settings.runtime.debug:
+                break # TESTING to limit API queries.
         data = gather.get_data(None, data['next_page_token'])
