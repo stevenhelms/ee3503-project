@@ -25,7 +25,7 @@ SECRET_KEY = 'ul@0trrq-(v%akytf60)^*@lx&mvyrdi44fw0c7fqn%@)y-m9g'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ec2-54-165-82-189.compute-1.amazonaws.com', 'localhost']
+ALLOWED_HOSTS = ['ec2-54-165-82-189.compute-1.amazonaws.com', 'localhost','127.0.0.1']
 
 
 # Application definition
@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'markdown',
     'api',
 ]
@@ -136,5 +137,10 @@ REST_FRAMEWORK = {
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ]
 }
