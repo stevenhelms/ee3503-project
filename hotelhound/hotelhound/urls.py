@@ -25,8 +25,4 @@ urlpatterns = [
     path('api/', include('api.urls')),
     path('admin/', admin.site.urls),
     re_path(r'^api-auth/', include('rest_framework.urls')),
-    path('schema/', get_schema_view(
-        title='Hotel Hound API',
-        version='1.0'
-    ), name='schema'),
 ]
