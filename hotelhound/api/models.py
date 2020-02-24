@@ -4,7 +4,7 @@ import time
 
 # Create your models here.
 class Hotel(models.Model):
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=128, unique=True)
     address = models.CharField(max_length=255,blank=True)
     phone_number = models.CharField(max_length=24,blank=True)
     vicinity = models.CharField(max_length=255)
@@ -38,7 +38,7 @@ class Rating(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return str(f"{self.rating} {self.user_ratings_total}")
+        return str(f"Rating: {self.rating}, User Ratings: {self.user_ratings_total}")
 
 
 class Review(models.Model):
@@ -46,9 +46,9 @@ class Review(models.Model):
     author_name = models.CharField(max_length=32)
     rating = models.FloatField()
     review_text = models.TextField()
-    review_time = models.DateTimeField()
+    review_time = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
-        return str(self.author_name)
+        return str(f"Author: {self.author_name}, Rating: {self.rating}")
