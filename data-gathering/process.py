@@ -51,14 +51,18 @@ def single_place(place):
     Arguments:
         place {dictionary} -- Hotel data.
     '''
+    id = output.hotels(place)
+    if settings.runtime.debug:
+        print("DEBUG: New ID is "+ str(id))
+
+    # if id == -1: #something didn't work right. Return now.
+    #     return
+
     rating, user_ratings_total = ratings(place)
+    output.ratings(id, rating, user_ratings_total)
+    
     details = gather.get_data(place)
     user_reviews = reviews(details)
-
-    id = output.hotels(place['place_id'], place)
-    print(id)
-    return
-    output.ratings(id, rating, user_ratings_total)
     output.reviews(id, user_reviews)
 
     # Testing purposes only? May remove later
@@ -74,9 +78,11 @@ def process():
         print(data['error'])
         exit(-1)
 
+    count = 0
     while 'next_page_token' in data:
         for place in data['results']:
-            single_place(place)
-            if settings.runtime.debug:
+            if settings.runtime.debug and count >= 2:
                 break # TESTING to limit API queries.
+            single_place(place)
+            count += 1
         data = gather.get_data(None, data['next_page_token'])

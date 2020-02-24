@@ -45,23 +45,45 @@ def get_api_key():
 def post_data(url_path, data):
     api_key = get_api_key()
 
+    '''
+    The Django API requires authentication to keep other people from 
+    posting data to our application. We configure serveral headers 
+    that the client (this script) will send to the Django server to 
+    authenticate us.
+    '''
     headers = {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': "Token " + api_key
     }    
-    print(headers)
 
+    '''
+    Convert out Python object back to a JSON string
+    '''
     json_data = json.dumps(data)
+    '''
+    Prepare an HTTP POST request.
+
+    This can be done in a single line, but multiple lines are shown here
+    as an example of how to debug your data and authentication in the event
+    there are problems.
+    
+    A single line may look like:
+        response = requests.post(url, data=data, headers=headers)
+    '''
     req = requests.Request('POST', settings.HH_API + '/' + url_path, 
         data = json_data, headers = headers
     )
     prepared = req.prepare()
 
-    print(prepared.headers)
-    print(prepared.body)
+    if settings.runtime.debug:
+        print(headers)
+        print(prepared.headers)
+        print(prepared.body)
 
+    '''Send the request'''
     s = requests.Session()
     response = s.send(prepared)
+    
     return response
 
 
@@ -128,14 +150,14 @@ def ratings(id,rating,user_ratings_total):
         f.write(id + "," + str(rating) +","+ str(user_ratings_total) +"\n")
     else:
         '''The condition used to send the data to a RESTful API'''
-        api_key = get_api_key()
-
         response = post_data('ratings/', {
                 'hotel_id': id,
                 'rating': rating,
-                'user_rating_total': user_ratings_total,
+                'user_ratings_total': user_ratings_total,
             }
         )
+        if settings.runtime.debug:
+            print(str(response.status_code) ) #+ ": "+ response.text)
 
 
 def reviews(id,reviews):
@@ -150,7 +172,7 @@ def reviews(id,reviews):
         reviews {dictionary} -- Dictionary of data to process
     '''
 
-    if reviews == None:
+    if reviews is None:
         return
 
     if settings.runtime.use_csv:
@@ -178,18 +200,19 @@ def reviews(id,reviews):
             f.write("\n") # End with a newline character
     else:
         '''The condition used to send the data to a RESTful API'''
-        api_key = get_api_key()
-        response = post_data('reviews/', {
-                'hotel_id': id,
-                'author_name': review['author_name'],
-                'rating': review['rating'],
-                'review_text': review['text'],
-                'review_time': review['time'],
-            }   
-        )
+        for review in reviews:
+            response = post_data('reviews/', {
+                    'hotel_id': id,
+                    'author_name': review['author_name'],
+                    'rating': review['rating'],
+                    'review_text': review['text'],
+                    'review_time': review['time'],
+                }   
+            )
+            if settings.runtime.debug:
+                print(str(response.status_code) + ": "+ response.text)
 
-
-def hotels(id,data):
+def hotels(data):
     '''
     `hotels` accepts a dictionary of information and gathers the
     required pieces based on the data model. Data that is not
@@ -202,9 +225,6 @@ def hotels(id,data):
     '''
     fields = ['name', 'formatted_address', 'formatted_phone_number',
         'vicinity', 'types', 'place_id', 'geometry']
-
-    # print(f"DEBUG: hotels()")
-    # print(data)
 
     if settings.runtime.use_csv:
         file = "hotels.csv"
@@ -226,8 +246,8 @@ def hotels(id,data):
         f.write("\n")  # End with a newline character
     else:
         '''The condition used to send the data to a RESTful API'''
-        api_key = get_api_key()
-
+        # g = json.loads(data['geometry'])
+        # geometry = json.dumps(g).replace('"', '\\"').replace('\n','\\n')
         response = post_data('hotels/', {
                 'name': data['name'],
                 'address': data['formatted_address'] if 'formatted_address' in data else '',
@@ -235,7 +255,16 @@ def hotels(id,data):
                 'vicinity': data['vicinity'],
                 'types': '|'.join(data['types']),
                 'google_place_id': data['place_id'],
-                'geometry': str(data['geometry']),
+                # 'geometry': 0, # geometry,
             }
         )
-        return response.text
+        if settings.runtime.debug or response.status_code != 200:
+            print(response.status_code)
+            print(response.text)
+
+        if response.status_code != 200:
+            return -1
+
+        id = json.loads(response.text) # Convert JSON to Python
+        # print(obj)
+        return id
