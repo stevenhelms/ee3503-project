@@ -119,5 +119,5 @@ Example HTML view
 '''
 def index(request):
     now = datetime.datetime.now()
-    html = "<html><body><h1>It is now %s.</h1></body></html>" % now
+    html = "<html><body><h1>No Hotels Today.</h1><p>Current time is %s.</p></body></html>" % now
     return HttpResponse(html)
