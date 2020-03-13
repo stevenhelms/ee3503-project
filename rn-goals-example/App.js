@@ -51,7 +51,7 @@ export default function App() {
 
 const styles = StyleSheet.create({
   screen: {
-    backgroundColor: "#fff",
+    backgroundColor: "#009ddc",
     padding: 50
   }
 });
