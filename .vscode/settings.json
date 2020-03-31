@@ -1,0 +1,5 @@
+{
+    "python.terminal.activateEnvInCurrentTerminal": true,
+    "python.envFile": "${workspaceFolder}/dev.env",
+    "python.pythonPath": "C:\\Users\\steve\\AppData\\Local\\Programs\\Python\\Python38\\python.exe"
+}
