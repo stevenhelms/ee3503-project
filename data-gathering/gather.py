@@ -31,7 +31,8 @@ def get_data(place=None, pagetoken=None):
         '''
         # print("Warning: "+str(e))
         try:
-            k = open(".key")
+            thisdir = os.path.dirname(os.path.realpath(__file__))
+            k = open(thisdir+"/.key")
             api_key = k.readline();
         except Exception as e:
             print("Warning: "+str(e))
