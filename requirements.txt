@@ -2,5 +2,4 @@ googlemaps
 djangorestframework
 markdown
 pyyaml
-mysqlclient
-uwsgi
+mod_wsgi

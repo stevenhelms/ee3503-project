@@ -135,3 +135,6 @@ dmypy.json
 *.key
 *.cnf
 static/
+
+# Ignore folders beginning with test
+test-*/
