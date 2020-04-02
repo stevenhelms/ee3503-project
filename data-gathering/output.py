@@ -31,8 +31,9 @@ def get_api_key():
         '''
         # print("Warning: "+str(e))
         try:
-            k = open("hh.key")
-            api_key = k.readline();
+            thisdir = os.path.dirname(os.path.realpath(__file__))
+            k = open(thisdir+"/hh.key")
+            api_key = k.readline().rstrip();
         except Exception as e:
             print("Warning: "+str(e))
 

@@ -1,3 +1,3 @@
 runtime = {}
 
-HH_API = 'http://localhost:8000/api' # No trailing slash here.
+HH_API = 'http://localhost/api' # No trailing slash here.
