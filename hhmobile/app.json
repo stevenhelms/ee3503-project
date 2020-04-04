@@ -3,7 +3,6 @@
     "name": "Caye Caulker Hotels",
     "slug": "hhmobile",
     "privacy": "public",
-    "sdkVersion": "36.0.0",
     "platforms": [
       "ios",
       "android",
@@ -15,7 +14,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#d7b410"
     },
     "updates": {
       "fallbackToCacheTimeout": 0

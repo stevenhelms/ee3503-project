@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import * as Font from "expo-font";
 import { AppLoading } from "expo";
-import { createStore, combinReducers, combineReducers } from "redux";
+import { createStore, combineReducers } from "redux";
 import { Provider } from "react-redux";
 
-import HomeScreen from "./screens/HomeScreen";
 import hotelsReducer from "./store/reducers/hotels";
+import HomeScreen from './screens/HomeScreen';
 
 const rootReducer = combineReducers({
   hotels: hotelsReducer
@@ -41,20 +41,4 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    backgroundColor: "#fff"
-  },
-  container: {
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 30
-  },
-  nameText: {
-    marginTop: 30,
-    fontSize: 24,
-    fontWeight: "bold",
-    fontFamily: "montserrat"
-  }
-});
+const styles = StyleSheet.create({});
