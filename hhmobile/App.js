@@ -6,7 +6,7 @@ import { createStore, combineReducers } from "redux";
 import { Provider } from "react-redux";
 
 import hotelsReducer from "./store/reducers/hotels";
-import HomeScreen from './screens/HomeScreen';
+import HoundNavigator from './components/HoundNavigator';
 
 const rootReducer = combineReducers({
   hotels: hotelsReducer
@@ -36,7 +36,7 @@ export default function App() {
 
   return (
     <Provider store={dataStore}>
-      <HomeScreen />
+      <HoundNavigator />
     </Provider>
   );
 }

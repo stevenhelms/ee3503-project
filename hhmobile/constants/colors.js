@@ -1,8 +1,10 @@
+const darkBlue = "#005b68";
+const mediumBlue = "#7dc3cb";
+const lightBlue = "#bbdddf";
+const pear = "#d7b410";
+const green = "#8e8f27";
 
 export default {
-    darkBlue: '#005b68',
-    mediumBlue: '#7dc3cb',
-    lightBlue: '#bbdddf',
-    pear: '#d7b410',
-    green: '#8e8f27',
-}
+  primaryColor: darkBlue,
+  accentColor: mediumBlue
+};
