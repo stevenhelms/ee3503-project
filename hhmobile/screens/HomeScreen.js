@@ -1,16 +1,36 @@
-import React from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import {
   StyleSheet,
   View,
   Text,
   FlatList,
   TouchableOpacity,
+  SafeAreaView,
+  RefreshControl,
 } from "react-native";
-import { useSelector } from "react-redux";
-import { Colors } from "react-native/Libraries/NewAppScreen";
+import { useSelector, useDispatch } from "react-redux";
+// import Constants from 'expo-constants';
+import Colors from '../constants/colors';
+import * as hotelActions from "../store/actions/hotels";
 
 const HomeScreen = (props) => {
+  const [isLoading, setIsLoading] = useState(false);
   const hotels = useSelector((state) => state.hotels.allHotels);
+  const dispatch = useDispatch();
+
+  const loadHotels = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      await dispatch(hotelActions.fetchHotels());
+    } catch (err) {
+
+    }
+    setIsLoading(false);
+  }, [dispatch]);
+
+  useEffect(() => {
+    loadHotels();
+  }, [dispatch]);
 
   const selectHotelHandler = (id) => {
     props.navigation.navigate("Details",{ id: id });
@@ -26,14 +46,17 @@ const HomeScreen = (props) => {
     );
   };
   return (
-    <View style={styles.screen}>
+    <SafeAreaView style={styles.screen}>
       <FlatList
+        refreshControl={
+          <RefreshControl refreshing={isLoading} onRefresh={loadHotels} />
+        }
         style={styles.list}
         keyExtractor={(item, index) => item.id.toString()}
         data={hotels}
         renderItem={renderItemHandler}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
