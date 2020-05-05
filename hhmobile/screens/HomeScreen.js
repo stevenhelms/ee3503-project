@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 // import Constants from 'expo-constants';
-import Colors from '../constants/colors';
+import Colors from "../constants/colors";
 import * as hotelActions from "../store/actions/hotels";
 
 const HomeScreen = (props) => {
@@ -22,9 +22,7 @@ const HomeScreen = (props) => {
     setIsLoading(true);
     try {
       await dispatch(hotelActions.fetchHotels());
-    } catch (err) {
-
-    }
+    } catch (err) {}
     setIsLoading(false);
   }, [dispatch]);
 
@@ -33,18 +31,24 @@ const HomeScreen = (props) => {
   }, [dispatch]);
 
   const selectHotelHandler = (id) => {
-    props.navigation.navigate("Details",{ id: id });
+    props.navigation.navigate("Details", { id: id });
   };
 
   const renderItemHandler = ({ item }) => {
     return (
       <View style={styles.listItem}>
-        <TouchableOpacity onPress={() => {selectHotelHandler(item.id)}} useForeground>
+        <TouchableOpacity
+          onPress={() => {
+            selectHotelHandler(item.id);
+          }}
+          useForeground
+        >
           <Text style={styles.listItemContent}>{item.name}</Text>
         </TouchableOpacity>
       </View>
     );
   };
+
   return (
     <SafeAreaView style={styles.screen}>
       <FlatList
